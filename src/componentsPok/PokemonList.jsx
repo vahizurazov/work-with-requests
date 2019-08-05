@@ -15,12 +15,18 @@ class PokemonList extends Component {
   }
 
   render() {
+    console.log("pokemon", this.state.pokemon);
+
     return (
       <>
         {this.state.pokemon ? (
           <div className="column wrap-card">
             {this.state.pokemon.map(pokemon => (
-              <PokemonCard />
+              <PokemonCard
+                key={pokemon.name}
+                name={pokemon.name}
+                url={pokemon.url}
+              />
             ))}
           </div>
         ) : (
