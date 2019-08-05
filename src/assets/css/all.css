@@ -234,3 +234,24 @@ strong {
 .wrapper {
   margin-bottom: 20px;
 }
+
+.text-center h1 {
+  color: #000;
+}
+
+/* .wrap-card {
+  width: 100%;
+} */
+
+/* .wrap-card > div {
+  width: 100%;
+  padding: 10px;
+  background-color: #bebebe;
+} */
+
+.pokeCard {
+  margin: 10px;
+  background-color: rgb(163, 151, 151);
+  padding: 10px;
+  text-align: center;
+}

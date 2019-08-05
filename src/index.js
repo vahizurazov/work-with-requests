@@ -4,4 +4,6 @@ import "./assets/css/all.css";
 import "bootstrap/dist/css/bootstrap.css";
 import App from "./App";
 
+// let baseUrl = "http://pokeapi.co/api/v2";
+
 ReactDOM.render(<App />, document.getElementById("root"));
