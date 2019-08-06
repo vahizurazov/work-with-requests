@@ -255,3 +255,26 @@ strong {
   padding: 10px;
   text-align: center;
 }
+.pokedex {
+  width: 100%;
+  padding: 20px;
+}
+.pokemon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 15px;
+}
+
+.pokedex-list {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+header {
+  width: 100%;
+}
+.wild-pokemon {
+  width: 100%;
+}
