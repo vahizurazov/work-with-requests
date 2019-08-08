@@ -9,6 +9,8 @@ function AppPokemon() {
 
   const [wildPokemon, setWildPokemon] = useState([]);
   const [pokemonAll, setPokemon] = useState([]);
+  const [pokemon2stage, setPokemon2stage] = useState([]);
+
   const [isShow, setIsShow] = useState(false);
 
   useEffect(() => {
@@ -19,7 +21,7 @@ function AppPokemon() {
     const hundredPokemon = () => {
       var start = 1;
       var result = [];
-      while (start <= 20) {
+      while (start <= 4) {
         result.push(start++);
       }
       return result;
@@ -35,18 +37,32 @@ function AppPokemon() {
     });
   };
 
-  // console.log("wildPokemon", wildPokemon);
+  console.log("wildPokemon", wildPokemon);
 
-  const getAll = name => {
+  const getAll = (name, name2) => {
     setIsShow(true);
     axios.get(`https://pokeapi.co/api/v2/pokemon/${name}/`).then(response => {
       // console.log("getAll", response.data);
       setPokemon(response.data);
       // setIsShow(false);
     });
+    axios.get(`https://pokeapi.co/api/v2/pokemon/${name2}/`).then(response => {
+      // console.log("getAll", response.data);
+      setPokemon2stage(response.data);
+      // setIsShow(false);
+    });
+  };
+  const getAll2 = name => {
+    setIsShow(true);
+    axios.get(`https://pokeapi.co/api/v2/pokemon/${name}/`).then(response => {
+      // console.log("getAll", response.data);
+      setPokemon2stage(response.data);
+      // setIsShow(false);
+    });
   };
 
-  // console.log("pokemonAll", pokemonAll);
+  console.log("pokemonAll", pokemonAll);
+  console.log("pokemon2stage", pokemon2stage);
 
   return (
     <div className="app-wrapper">
@@ -71,7 +87,17 @@ function AppPokemon() {
                 href="#"
                 onClick={() => getAll(pokemon.chain.evolves_to[0].species.name)}
               >
-                Next evolution
+                Evolution stage 1
+              </button>
+              <button
+                href="#"
+                onClick={() =>
+                  getAll2(
+                    pokemon.chain.evolves_to[0].evolves_to[0].species.name
+                  )
+                }
+              >
+                Evolution stage 2
               </button>
             </div>
           ))}
@@ -90,6 +116,22 @@ function AppPokemon() {
               className="sprite"
             />
             <p className="pokemon-name">{pokemonAll.name}</p>
+          </div>
+        </div>
+      ) : null}
+      {isShow ? (
+        <div>
+          <div className="pokeCard" key={pokemon2stage.id}>
+            <img
+              src={
+                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" +
+                pokemon2stage.id +
+                ".png"
+              }
+              alt="sd"
+              className="sprite"
+            />
+            <p className="pokemon-name">{pokemon2stage.name}</p>
           </div>
         </div>
       ) : null}
