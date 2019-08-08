@@ -4,8 +4,8 @@ import "./assets/css/all.css";
 import "./assets/css/poke.css";
 
 import "bootstrap/dist/css/bootstrap.css";
-import App from "./App";
+import AppPokemon from "./AppPokemon";
 
 // let baseUrl = "http://pokeapi.co/api/v2";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<AppPokemon />, document.getElementById("root"));
