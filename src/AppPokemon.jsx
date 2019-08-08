@@ -1,68 +1,63 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-// import NewPokemonPage from "./componentsPok/NewPokemonPage";
+import React from "react";
+// import axios from "axios";
+import NewPokemonPage from "./componentsPok/NewPokemonPage";
 // import Loader from "./assets/images/loader.gif";
 
 function AppPokemon() {
   // const [pokedex, setPokedex] = useState([]);
   // const [pokeName, setPokeName] = useState([]);
 
-  const [wildPokemon, setWildPokemon] = useState([]);
-  const [pokemonAll, setPokemon] = useState([]);
-  const [pokemon2stage, setPokemon2stage] = useState([]);
+  // const [wildPokemon, setWildPokemon] = useState([]);
+  // const [pokemonAll, setPokemon] = useState([]);
+  // const [pokemon2stage, setPokemon2stage] = useState([]);
 
-  const [isShow, setIsShow] = useState(false);
+  // const [isShow, setIsShow] = useState(false);
 
-  useEffect(() => {
-    getWildPokemon();
-  }, []);
+  // useEffect(() => {
+  //   getWildPokemon();
+  // }, []);
 
-  const getWildPokemon = () => {
-    const hundredPokemon = () => {
-      var start = 1;
-      var result = [];
-      while (start <= 4) {
-        result.push(start++);
-      }
-      return result;
-    };
-    const arr = hundredPokemon();
-    arr.map(item => {
-      axios
-        .get(`https://pokeapi.co/api/v2/evolution-chain/${item}/`)
-        .then(response => {
-          // console.log("response.data", response.data);
-          setWildPokemon(state => [...state, response.data]);
-        });
-    });
-  };
+  // const getWildPokemon = () => {
+  //   const hundredPokemon = () => {
+  //     var start = 1;
+  //     var result = [];
+  //     while (start <= 9) {
+  //       result.push(start++);
+  //     }
+  //     return result;
+  //   };
+  //   const arr = hundredPokemon();
+  //   arr.map(item => {
+  //     return axios
+  //       .get(`https://pokeapi.co/api/v2/evolution-chain/${item}/`)
+  //       .then(response => {
+  //         // console.log("response.data", response.data);
+  //         setWildPokemon(state => [...state, response.data]);
+  //       });
+  //   });
+  // };
 
-  console.log("wildPokemon", wildPokemon);
+  // console.log("wildPokemon", wildPokemon);
 
-  const getAll = (name, name2) => {
-    setIsShow(true);
-    axios.get(`https://pokeapi.co/api/v2/pokemon/${name}/`).then(response => {
-      // console.log("getAll", response.data);
-      setPokemon(response.data);
-      // setIsShow(false);
-    });
-    axios.get(`https://pokeapi.co/api/v2/pokemon/${name2}/`).then(response => {
-      // console.log("getAll", response.data);
-      setPokemon2stage(response.data);
-      // setIsShow(false);
-    });
-  };
-  const getAll2 = name => {
-    setIsShow(true);
-    axios.get(`https://pokeapi.co/api/v2/pokemon/${name}/`).then(response => {
-      // console.log("getAll", response.data);
-      setPokemon2stage(response.data);
-      // setIsShow(false);
-    });
-  };
+  // const getAll = name => {
+  //   setIsShow(true);
+  //   axios.get(`https://pokeapi.co/api/v2/pokemon/${name}/`).then(response => {
+  //     // console.log("getAll", response.data);
+  //     setPokemon(response.data);
+  //     // setIsShow(false);
+  //   });
+  // };
+  // const getAll2 = name => {
+  //   setIsShow(true);
+  //   axios.get(`https://pokeapi.co/api/v2/pokemon/${name}/`).then(response => {
+  //     // console.log("getAll", response.data);
+  //     setPokemon2stage(response.data);
+  //     // setIsShow(false);
+  //   });
+  // };
 
-  console.log("pokemonAll", pokemonAll);
-  console.log("pokemon2stage", pokemon2stage);
+  // console.log(">>>>>>>>>>>>>>>", pokemonAll);
+  // console.log("pokemon2stage", pokemon2stage);
 
   return (
     <div className="app-wrapper">
@@ -70,7 +65,7 @@ function AppPokemon() {
         <h1 className="title">Pokemon Table test</h1>
         {/* <button onClick={filteringName}>asdfa</button> */}
       </header>
-      <div className="pokedex">
+      {/* <div className="pokedex">
         <div className="pokedex-list">
           {wildPokemon.map(pokemon => (
             <div className="pokemon" key={pokemon.id}>
@@ -134,9 +129,9 @@ function AppPokemon() {
             <p className="pokemon-name">{pokemon2stage.name}</p>
           </div>
         </div>
-      ) : null}
+      ) : null} */}
 
-      {/* <NewPokemonPage /> */}
+      <NewPokemonPage />
 
       {/* <section className="pokedex">
         <div className="pokedex-list">
