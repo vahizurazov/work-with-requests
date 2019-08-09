@@ -3,7 +3,7 @@ import axios from "axios";
 // import Loader from "./assets/images/loader.gif";
 
 function NewPokemonPage() {
-  const [urlChain, seturlChain] = useState([]);
+  const [urlChain, setUrlChain] = useState([]);
   const [wildPokemon, setwildPokemon] = useState([]);
 
   useEffect(() => {
@@ -12,12 +12,11 @@ function NewPokemonPage() {
 
   const getUrlChain = url => {
     const baseUrl = "https://pokeapi.co/api/v2/evolution-chain/";
-    axios.get(baseUrl).then(response => {
-      console.log("response.data", response.data.results);
-      seturlChain(response.data.results);
+    axios.get(baseUrl).then(res => {
+      console.log("res.data", res.data);
+      setUrlChain(res.data.results);
     });
   };
-  //   console.log("urlChain", urlChain);
 
   const getAllPokemon = () => {
     urlChain.map(item => {
@@ -29,6 +28,7 @@ function NewPokemonPage() {
       });
     });
   };
+  // console.log("urlChain", urlChain);
 
   console.log(">>>>>>>>", wildPokemon);
 
