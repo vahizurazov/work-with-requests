@@ -5,32 +5,44 @@ import axios from "axios";
 function NewPokemonPage() {
   const [urlChain, setUrlChain] = useState([]);
   const [wildPokemon, setwildPokemon] = useState([]);
+  const [next, setNext] = useState("");
 
   useEffect(() => {
     getUrlChain();
   }, []);
 
-  const getUrlChain = url => {
-    const baseUrl = "https://pokeapi.co/api/v2/evolution-chain/";
+  const getUrlChain = () => {
+    const baseUrl =
+      "https://pokeapi.co/api/v2/evolution-chain/?offset=0&limit=20";
     axios.get(baseUrl).then(res => {
-      console.log("res.data", res.data);
+      // console.log("getUrlChain", res.data);
       setUrlChain(res.data.results);
+      setNext(res.data.next);
     });
   };
+  // console.log("next", next);
 
   const getAllPokemon = () => {
     urlChain.map(item => {
       console.log("item.url", item.url);
       axios.get(item.url).then(res => {
-        console.log("res.data", res.data);
+        console.log("getAllPokemon", res.data);
 
         setwildPokemon(state => [...state, res.data]);
       });
     });
   };
+  const getNext = () => {
+    console.log("next", next);
+    axios.get(next).then(res => {
+      setUrlChain(res.data.results);
+      setNext(res.data.next);
+      getAllPokemon();
+    });
+  };
   // console.log("urlChain", urlChain);
 
-  console.log(">>>>>>>>", wildPokemon);
+  // console.log(">>>>>>>>", wildPokemon);
 
   return (
     <div>
@@ -49,7 +61,8 @@ function NewPokemonPage() {
           </div>
         ))}
       </div>
-      <button onClick={getAllPokemon}>Show Pokemon</button>
+      {/* <button onClick={getAllPokemon}>Show Pokemon</button> */}
+      <button onClick={getNext}>Next</button>
     </div>
   );
 }
