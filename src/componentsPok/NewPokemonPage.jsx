@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+// import "bootstrap/dist/css/bootstrap.css";
+
 // import Loader from "./assets/images/loader.gif";
 
 function NewPokemonPage() {
   const [urlChain, setUrlChain] = useState([]);
   const [wildPokemon, setwildPokemon] = useState([]);
   const [next, setNext] = useState("");
+  const [isShow, setIsShow] = useState(false);
 
   useEffect(() => {
     getUrlChain();
@@ -13,9 +16,9 @@ function NewPokemonPage() {
 
   const getUrlChain = () => {
     const baseUrl =
-      "https://pokeapi.co/api/v2/evolution-chain/?offset=0&limit=20";
+      "https://pokeapi.co/api/v2/evolution-chain/?offset=0&limit=10";
     axios.get(baseUrl).then(res => {
-      // console.log("getUrlChain", res.data);
+      console.log("getUrlChain", res.data);
       setUrlChain(res.data.results);
       setNext(res.data.next);
     });
@@ -37,12 +40,18 @@ function NewPokemonPage() {
     axios.get(next).then(res => {
       setUrlChain(res.data.results);
       setNext(res.data.next);
+      setwildPokemon([]);
       getAllPokemon();
     });
   };
+
+  const getInfo = () => {
+    if (isShow) return setIsShow(false);
+    setIsShow(true);
+  };
   // console.log("urlChain", urlChain);
 
-  // console.log(">>>>>>>>", wildPokemon);
+  console.log("wildPokemon>>>>>>>>", wildPokemon);
 
   return (
     <div>
@@ -56,13 +65,18 @@ function NewPokemonPage() {
               alt="sd"
               className="sprite"
             />
-            <p>{pokemon.chain.species.url.match(/\/([0-9]{1,})\//)[1]}</p>
             <p className="pokemon-name">{pokemon.chain.species.name}</p>
+            {isShow ? <div>lakshbdflkhsdab</div> : null}
+            <button onClick={getInfo} type="button" className="btn btn-info">
+              Info
+            </button>
           </div>
         ))}
       </div>
       {/* <button onClick={getAllPokemon}>Show Pokemon</button> */}
-      <button onClick={getNext}>Next</button>
+      <button type="button" className="btn btn-primary" onClick={getNext}>
+        Next 10
+      </button>
     </div>
   );
 }
