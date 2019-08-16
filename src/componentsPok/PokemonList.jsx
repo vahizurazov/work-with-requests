@@ -1,17 +1,13 @@
 import React, { Component } from "react";
 // import axios from "axios";
 import Loader from "../assets/images/loader.gif";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-// import PokemonCard from "./PokemonCard";
+import PokemonCard from "./PokemonCard";
 
 class PokemonList extends Component {
-  state = {
-    url: "https://pokeapi.co/api/v2/pokemon/",
-    pokemon: null
-  };
-
   render() {
-    console.log("this.props", this.props);
+    // console.log("this.props", this.props);
     const { isLoading, isShow, pokemon, getInfo, pokemonInfo } = this.props;
 
     return (
@@ -30,23 +26,19 @@ class PokemonList extends Component {
           )}
 
           <p className="pokemon-name">{pokemon.chain.species.name}</p>
-          {isShow ? (
-            <div>
-              <ul>
-                <li>Base Experience: {pokemonInfo.base_experience}</li>
-                <li>Height: {pokemonInfo.height}</li>
-                <li>Weight: {pokemonInfo.weight}</li>
-                <li>ID: {pokemonInfo.id}</li>
-              </ul>
-            </div>
-          ) : null}
-          <button
+          {/* {isShow ? <PokemonCard /> : null} */}
+          <Route
+            path={`/${pokemon.chain.species.name}`}
+            component={PokemonCard}
+          />
+          <Link
+            to={`/${pokemon.chain.species.name}`}
             onClick={e => getInfo(pokemon.chain.species.name, e)}
             type="button"
             className="btn btn-info"
           >
             Info
-          </button>
+          </Link>
         </div>
       </>
     );

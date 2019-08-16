@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 // import "bootstrap/dist/css/bootstrap.css";
 
 import PokemonList from "./PokemonList";
@@ -19,21 +20,15 @@ function NewPokemonPage() {
 
   const getUrlChain = () => {
     const baseUrl =
-      "https://pokeapi.co/api/v2/evolution-chain/?offset=0&limit=10";
+      "https://pokeapi.co/api/v2/evolution-chain/?offset=0&limit=3";
     axios.get(baseUrl).then(res => {
-      // console.log("getUrlChain", res.data);
       setUrlChain(res.data.results);
       setNext(res.data.next);
     });
   };
-  console.log("allPokemon", allPokemon);
-
   const getAllPokemon = () => {
     urlChain.map(item => {
-      // console.log("item.url", item.url);
       axios.get(item.url).then(res => {
-        // console.log("getAllPokemon", res.data);
-
         setwildPokemon(state => [...state, res.data]);
         setAllPokemon(state => [...state, res.data]);
       });
@@ -53,39 +48,36 @@ function NewPokemonPage() {
   };
 
   const getInfo = (name, e) => {
-    // if (e.target.parentNode.childNodes[1].innerText === name) {
     if (isShow) return setIsShow(false);
     setIsShow(true);
     axios.get(`https://pokeapi.co/api/v2/pokemon/${name}/`).then(res => {
       console.log("setPokemonInfo", res.data);
       setPokemonInfo(res.data);
     });
-    // }
-    // console.log("e.target", e.target.parentNode.childNodes[1].innerText);
   };
-  // console.log("urlChain", urlChain);
-
-  // console.log("pokemonInfo>>>>>", pokemonInfo);
-  // console.log("pokemon", wildPokemon);
 
   return (
-    <div>
+    <Router>
       <div className="pokedex-list">
         {wildPokemon.map(pokemon => (
+          // <Route Route path="/about" key={pokemon.id} component={PokemonList}>
           <PokemonList
             pokemon={pokemon}
             isShow={isShow}
             isLoading={isLoading}
             getInfo={getInfo}
             pokemonInfo={pokemonInfo}
+            key={pokemon.id}
           />
+          // </Route>
         ))}
       </div>
+
       {/* <button onClick={getAllPokemon}>Show Pokemon</button> */}
       <button type="button" className="btn btn-primary" onClick={getNext}>
         Next 10
       </button>
-    </div>
+    </Router>
   );
 }
 
