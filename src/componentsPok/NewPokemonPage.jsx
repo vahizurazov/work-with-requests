@@ -34,6 +34,8 @@ function NewPokemonPage() {
       });
     });
   };
+  // console.log(this.props);
+
   const getNext = () => {
     console.log("next", next);
     setIsloading(true);
@@ -48,7 +50,7 @@ function NewPokemonPage() {
   };
 
   const getInfo = (name, e) => {
-    if (isShow) return setIsShow(false);
+    // if (isShow) return setIsShow(false);
     setIsShow(true);
     axios.get(`https://pokeapi.co/api/v2/pokemon/${name}/`).then(res => {
       console.log("setPokemonInfo", res.data);
@@ -56,11 +58,14 @@ function NewPokemonPage() {
     });
   };
 
+  const backPage = () => {
+    setIsShow(false);
+  };
+
   return (
     <Router>
       <div className="pokedex-list">
         {wildPokemon.map(pokemon => (
-          // <Route Route path="/about" key={pokemon.id} component={PokemonList}>
           <PokemonList
             pokemon={pokemon}
             isShow={isShow}
@@ -69,14 +74,16 @@ function NewPokemonPage() {
             pokemonInfo={pokemonInfo}
             key={pokemon.id}
           />
-          // </Route>
         ))}
       </div>
-
-      {/* <button onClick={getAllPokemon}>Show Pokemon</button> */}
-      <button type="button" className="btn btn-primary" onClick={getNext}>
-        Next 10
-      </button>
+      <div className="d-flex justify-content-between">
+        <button type="button" className="btn btn-primary" onClick={getNext}>
+          Next 10
+        </button>
+        <button type="button" className="btn btn-primary" onClick={backPage}>
+          Back
+        </button>
+      </div>
     </Router>
   );
 }
