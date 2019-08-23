@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 // import "bootstrap/dist/css/bootstrap.css";
 
 import PokemonList from "./PokemonList";
@@ -13,6 +13,7 @@ function NewPokemonPage() {
   const [pokemonInfo, setPokemonInfo] = useState([]);
   const [isLoading, setIsloading] = useState(false);
   const [allPokemon, setAllPokemon] = useState([]);
+  const [evolutionPoke, setEvolutionPoke] = useState([]);
 
   useEffect(() => {
     getUrlChain();
@@ -20,8 +21,10 @@ function NewPokemonPage() {
 
   const getUrlChain = () => {
     const baseUrl =
-      "https://pokeapi.co/api/v2/evolution-chain/?offset=0&limit=3";
+      "https://pokeapi.co/api/v2/evolution-chain/?offset=0&limit=10";
     axios.get(baseUrl).then(res => {
+      // console.log("res.data.results", res.data.results);
+
       setUrlChain(res.data.results);
       setNext(res.data.next);
     });
@@ -38,10 +41,10 @@ function NewPokemonPage() {
 
   const getNext = () => {
     console.log("next", next);
+    if (isShow) return;
     setIsloading(true);
     axios.get(next).then(res => {
       setUrlChain(res.data.results);
-
       setNext(res.data.next);
       setwildPokemon([]);
       getAllPokemon();
@@ -49,13 +52,21 @@ function NewPokemonPage() {
     });
   };
 
-  const getInfo = (name, e) => {
+  // console.log("urlChain", urlChain);
+
+  const getInfo = (name, id) => {
     // if (isShow) return setIsShow(false);
+    console.log("id", id);
+
     setIsShow(true);
     axios.get(`https://pokeapi.co/api/v2/pokemon/${name}/`).then(res => {
-      console.log("setPokemonInfo", res.data);
+      // console.log("setPokemonInfo", res.data);
       setPokemonInfo(res.data);
     });
+    // axios.get(`https://pokeapi.co/api/v2/evolution-chain/${id}/`).then(res => {
+    //   console.log("IDDDDDDDDDDDDDD", res.data);
+    //   setEvolutionPoke(res.data);
+    // });
   };
 
   const backPage = () => {
@@ -72,11 +83,12 @@ function NewPokemonPage() {
             isLoading={isLoading}
             getInfo={getInfo}
             pokemonInfo={pokemonInfo}
+            // evolutionPoke={evolutionPoke}
             key={pokemon.id}
           />
         ))}
       </div>
-      <div className="d-flex justify-content-between">
+      <div className="d-flex justify-content-around">
         <button type="button" className="btn btn-primary" onClick={getNext}>
           Next 10
         </button>

@@ -10,6 +10,7 @@ class PokemonList extends Component {
   render() {
     // console.log("this.props", this.props);
     const { isLoading, isShow, pokemon, getInfo, pokemonInfo } = this.props;
+    // console.log("pokemon.chain.species.url", pokemon);
 
     return (
       <>
