@@ -1,0 +1,11 @@
+#anim {
+  background-image: url("https://i.stack.imgur.com/J5drY.png");
+  width: 250px;
+  height: 188px;
+  animation: anim 1s steps(10) infinite;
+}
+@keyframes anim {
+  100% {
+    background-position: -2500px;
+  }
+}
