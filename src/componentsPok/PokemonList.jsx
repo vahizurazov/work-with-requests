@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-// import axios from "axios";
+import axios from "axios";
 import Loader from "../assets/images/loader.gif";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import PokemonCard from "./PokemonCard";
@@ -9,18 +9,17 @@ import PokemonCard from "./PokemonCard";
 class PokemonList extends Component {
   render() {
     // console.log("this.props", this.props);
-    const { isLoading, isShow, pokemon, getInfo, pokemonInfo } = this.props;
-    // console.log("pokemon.chain.species.url", pokemon);
-
+    const { isLoading, isShow, pokemon } = this.props;
+    // console.log("pokemonInfo", pokemonInfo);
+    console.log(pokemon, '--- pokemon');
     return (
       <>
-        {isShow ? (
-          <Route
+        {/* {isShow ? ( */}
+          {/* <Route
             path={`/${pokemon.chain.species.name}`}
-            component={() => <PokemonCard {...pokemonInfo} />}
-            // render={pokemonInfo => <PokemonCard {...pokemonInfo} />}
-          />
-        ) : (
+            component={() => <PokemonCard pokemon={pokemon} />}
+          /> */}
+        {/* ) : ( */}
           <div className="pokemon" key={pokemon.id}>
             {!isLoading ? (
               <img
@@ -35,17 +34,16 @@ class PokemonList extends Component {
             )}
 
             <p className="pokemon-name">{pokemon.chain.species.name}</p>
-            {/* {isShow ? <PokemonCard /> : null} */}
             <Link
               to={`/${pokemon.chain.species.name}`}
-              onClick={e => getInfo(pokemon.chain.species.name, e)}
+              // onClick={e => getInfo(pokemon.chain.species.name, e)}
               type="button"
               className="btn btn-info"
             >
               Info
             </Link>
           </div>
-        )}
+        {/* )} */}
       </>
     );
   }
