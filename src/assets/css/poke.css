@@ -24,7 +24,6 @@ header {
   justify-content: center;
   align-items: center;
   flex-flow: column;
-  height: 100px;
   background: #fff;
   padding: 10px;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.2);
@@ -129,4 +128,9 @@ header {
 
 .pokedex-list .pokemon .sprite {
   width: 100%;
+}
+.namePok {
+  margin: 0 auto;
+  padding: 10px 0 0;
+  font-weight: 900;
 }

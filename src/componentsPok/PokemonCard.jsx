@@ -19,7 +19,7 @@ class PokemonCard extends Component {
   };
 
   componentDidMount() {
-    this.getPokemonInfo(this.props.pokemon.chain.species.name)
+    this.getPokemonInfo(this.props.pokemon.chain.species.name);
     const urlId = this.state.pokemonInfo.id;
     if (urlId === undefined) return;
 
@@ -43,7 +43,7 @@ class PokemonCard extends Component {
         getPokemonEvolutionIds(res.data.chain.evolves_to);
         this.setState({ pokemonEvolutionPicsId });
       });
-    console.log('Mount');
+    console.log("Mount");
   }
 
   getPokemonEvolutionInfo = () => {
@@ -52,32 +52,27 @@ class PokemonCard extends Component {
 
   render() {
     const { pokemonInfo } = this.state;
-  
+
     return (
       <div className="d-flex flex-column">
-        <div>
-          Name: <span>{pokemonInfo.name}</span>
+        <div className="namePok">
+          <span>{String(pokemonInfo.name).toUpperCase()}</span>
         </div>
         <div className="pokemon">
           <img
-            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-              pokemonInfo.id
-            }.png`}
+            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonInfo.id}.png`}
             alt="sd"
             className="sprite"
           />
 
           {this.state.pokemonEvolutionPicsId.map(id => (
             <img
-              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-                id
-              }.png`}
+              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`}
               alt="sd"
               className="sprite"
               key={id}
             />
           ))}
-
         </div>
 
         <div className="wrap">
