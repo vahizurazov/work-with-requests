@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Component } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 // import "bootstrap/dist/css/bootstrap.css";
@@ -6,125 +6,148 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import PokemonList from "./PokemonList";
 import PokemonCard from "./PokemonCard";
 
-const NewPokemonPage = props => {
-  const [urlChain, setUrlChain] = useState([]);
-  const [wildPokemon, setwildPokemon] = useState([]);
-  const [isShow, setIsShow] = useState(false);
-  const [pokemonInfo, setPokemonInfo] = useState([]);
-  const [isLoading, setIsloading] = useState(false);
-  const [allPokemon, setAllPokemon] = useState([]);
-  const [evolutionPoke, setEvolutionPoke] = useState([]);
-  const [fetchedPokemonCount, setFetchedPokemonCount] = useState(0);
-  const [isDataReady, setIsDataReady] = useState(false);
+class NewPokemonPage extends Component {
+  state = {
+    urlChain: [],
+    wildPokemon: [],
+    isShow: false,
+    pokemonInfo: [],
+    isLoading: false,
+    allPokemon: [],
+    evolutionPoke: [],
+    fetchedPokemonCount: 0,
+    isDataReady: false
+  };
 
-  useEffect(() => {
-    getUrlChain();
-  }, [props.urlChainCount]);
+  // useEffect(() => {
+  //   getUrlChain();
+  // }, [props.urlChainCount]);
 
-  useEffect(() => {
-    getAllPokemon();
-  }, [urlChain]);
+  // useEffect(() => {
+  //   getAllPokemon();
+  // }, [urlChain]);
+  componentDidMount() {
+    this.getUrlChain();
+    // this.getAllPokemon();
+  }
 
-  const getUrlChain = () => {
-    const urlChainCount = props.urlChainCount;
-    const baseUrl = `https://pokeapi.co/api/v2/evolution-chain/?offset=${fetchedPokemonCount}&limit=${urlChainCount}`;
+  getUrlChain = () => {
+    // console.log("this.props,", this.props);
+    console.log("STARTFUNCTION", this.state.fetchedPokemonCount);
+
+    const urlChainCount = this.props.urlChainCount;
+    const baseUrl = `https://pokeapi.co/api/v2/evolution-chain/?offset=${this.state.fetchedPokemonCount}&limit=${urlChainCount}`;
     axios.get(baseUrl).then(res => {
       // console.log("res.data.results", res.data);
-
-      setUrlChain(res.data.results);
-      setFetchedPokemonCount(state => state + urlChainCount);
+      this.setState({ urlChain: res.data.results });
+      // console.log("this.state.urlChain", this.state.urlChain);
+      this.setState({
+        fetchedPokemonCount: this.state.fetchedPokemonCount + urlChainCount
+      });
+      this.getAllPokemon();
       // setNext(res.data.next);
     });
   };
-  const getAllPokemon = () => {
-    if (isDataReady) setIsDataReady(false);
-    urlChain.map(item => {
+  getAllPokemon = () => {
+    // console.log("GETALLPOKEMON");
+    console.log("this.state.urlChain", this.state.urlChain);
+
+    // if (this.state.isDataReady) this.setState({ IsDataReady: false });
+    this.state.urlChain.map(item => {
       axios.get(item.url).then(res => {
-        setwildPokemon(state => [...state, res.data]);
-        setAllPokemon(state => [...state, res.data]);
-        setIsDataReady(true);
+        console.log("resgetAllPokemon", res.data);
+
+        this.setState(prevState => ({
+          wildpokemon: [prevState.wildpokemon, res.data]
+        }));
+
+        // setwildPokemon(state => [...state, res.data]);
+        // setAllPokemon(state => [...state, res.data]);
+        this.setState({ IsDataReady: true });
       });
     });
   };
   // console.log(this.props);
 
-  const getNext = () => {
-    // console.log("next", next);
-    if (isShow) return;
-    setIsloading(true);
-    const baseUrl = `https://pokeapi.co/api/v2/evolution-chain/?offset=${fetchedPokemonCount}&limit=${props.urlChainCount}`;
-    // axios.get(next).then(res => {
-    axios.get(baseUrl).then(res => {
-      setUrlChain(res.data.results);
-      // setNext(res.data.next);
-      setwildPokemon([]);
-      // getAllPokemon();
-      setIsloading(false);
-      setFetchedPokemonCount(state => state + props.urlChainCount);
-    });
+  getNext = () => {
+    // // console.log("next", next);
+    // if (this.state.isShow) return;
+    // this.setState({Isloading: true})
+    // const baseUrl = `https://pokeapi.co/api/v2/evolution-chain/?offset=${this.state.fetchedPokemonCount}&limit=${this.props.urlChainCount}`;
+    // // axios.get(next).then(res => {
+    // axios.get(baseUrl).then(res => {
+    //   setUrlChain(res.data.results);
+    //   // setNext(res.data.next);
+    //   setwildPokemon([]);
+    //   // getAllPokemon();
+    //   setIsloading(false);
+    //   setFetchedPokemonCount(state => state + this.props.urlChainCount);
+    // });
   };
 
   // console.log("urlChain", urlChain);
 
-  const getInfo = (name, id) => {
+  getInfo = (name, id) => {
     // if (isShow) return setIsShow(false);
     console.log("---------names", name);
 
-    setIsShow(true);
+    this.setState({ IsShow: true });
     axios.get(`https://pokeapi.co/api/v2/pokemon/${name}/`).then(res => {
-      // console.log("setPokemonInfo", res.data);
-      setPokemonInfo(res.data);
+      // setPokemonInfo(res.data);
     });
-    // axios.get(`https://pokeapi.co/api/v2/evolution-chain/${id}/`).then(res => {
-    //   console.log("IDDDDDDDDDDDDDD", res.data);
-    //   setEvolutionPoke(res.data);
-    // });
   };
+  render() {
+    // console.log("this.state", this.state);
 
-  return (
-    <Router>
-      <div className="pokedex-list">
-        {/* {console.log('render')} */}
-        {isDataReady
-          ? wildPokemon.map(pokemon => (
-              <>
-                <Route
-                  path="/"
-                  exact
-                  component={() => (
-                    <PokemonList
-                      pokemon={pokemon}
-                      isShow={isShow}
-                      isLoading={isLoading}
-                      key={pokemon.id}
-                    />
-                  )}
-                />
-                <Route
-                  path={`/${pokemon.chain.species.name}`}
-                  component={() => (
-                    <PokemonCard
-                      getInfo={getInfo}
-                      pokemon={pokemon}
-                      {...pokemonInfo}
-                      key={pokemon.id}
-                    />
-                  )}
-                />
-              </>
-            ))
-          : null}
-      </div>
-      <div className="d-flex justify-content-around">
-        <button type="button" className="btn btn-primary" onClick={getNext}>
-          Next 10
-        </button>
-        <Link type="button" className="btn btn-primary" to="/">
-          Back
-        </Link>
-      </div>
-    </Router>
-  );
-};
+    return (
+      <Router>
+        <div className="pokedex-list">
+          {/* {console.log('render')} */}
+          {this.state.isDataReady
+            ? this.state.wildPokemon.map(pokemon => (
+                <>
+                  <Route
+                    path="/"
+                    exact
+                    component={() => (
+                      <PokemonList
+                        pokemon={pokemon}
+                        isShow={this.state.isShow}
+                        isLoading={this.state.isLoading}
+                        key={pokemon.id}
+                      />
+                    )}
+                  />
+                  <Route
+                    path={`/${pokemon.chain.species.name}`}
+                    component={() => (
+                      <PokemonCard
+                        getInfo={this.getInfo}
+                        pokemon={pokemon}
+                        {...this.state.pokemonInfo}
+                        key={pokemon.id}
+                      />
+                    )}
+                  />
+                </>
+              ))
+            : null}
+        </div>
+        <div className="d-flex justify-content-around">
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={this.getNext}
+          >
+            Next 10
+          </button>
+          <Link type="button" className="btn btn-primary" to="/">
+            Back
+          </Link>
+        </div>
+      </Router>
+    );
+  }
+}
 
 export default NewPokemonPage;
