@@ -16,7 +16,7 @@ class NewPokemonPage extends Component {
     allPokemon: [],
     evolutionPoke: [],
     fetchedPokemonCount: 0,
-    isDataReady: false
+    isDataReady: true
   };
 
   // useEffect(() => {
@@ -32,38 +32,27 @@ class NewPokemonPage extends Component {
   }
 
   getUrlChain = () => {
-    // console.log("this.props,", this.props);
-    console.log("STARTFUNCTION", this.state.fetchedPokemonCount);
-
     const urlChainCount = this.props.urlChainCount;
     const baseUrl = `https://pokeapi.co/api/v2/evolution-chain/?offset=${this.state.fetchedPokemonCount}&limit=${urlChainCount}`;
     axios.get(baseUrl).then(res => {
-      // console.log("res.data.results", res.data);
       this.setState({ urlChain: res.data.results });
-      // console.log("this.state.urlChain", this.state.urlChain);
       this.setState({
         fetchedPokemonCount: this.state.fetchedPokemonCount + urlChainCount
       });
       this.getAllPokemon();
-      // setNext(res.data.next);
     });
   };
   getAllPokemon = () => {
-    // console.log("GETALLPOKEMON");
-    console.log("this.state.urlChain", this.state.urlChain);
-
     // if (this.state.isDataReady) this.setState({ IsDataReady: false });
     this.state.urlChain.map(item => {
       axios.get(item.url).then(res => {
         console.log("resgetAllPokemon", res.data);
-
         this.setState(prevState => ({
-          wildpokemon: [prevState.wildpokemon, res.data]
+          wildPokemon: [...prevState.wildPokemon, res.data]
         }));
 
-        // setwildPokemon(state => [...state, res.data]);
         // setAllPokemon(state => [...state, res.data]);
-        this.setState({ IsDataReady: true });
+        // this.setState({ IsDataReady: true });
       });
     });
   };
@@ -97,7 +86,7 @@ class NewPokemonPage extends Component {
     });
   };
   render() {
-    // console.log("this.state", this.state);
+    console.log("this.state", this.state.isDataReady);
 
     return (
       <Router>
